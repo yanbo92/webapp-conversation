@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',  // Enable static HTML export
   productionBrowserSourceMaps: false, // enable browser source map generation during the production build
   // Configure pageExtensions to include md and mdx
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
@@ -15,6 +16,10 @@ const nextConfig = {
   typescript: {
     // https://nextjs.org/docs/api-reference/next.config.js/ignoring-typescript-errors
     ignoreBuildErrors: true,
+  },
+  // Required for static export
+  images: {
+    unoptimized: true,
   },
 }
 

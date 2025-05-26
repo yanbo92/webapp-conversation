@@ -1,7 +1,8 @@
 import { ChatClient } from 'dify-client'
 import { v4 } from 'uuid'
-import { API_KEY, API_URL, APP_ID } from '@/config'
 import Cookies from 'js-cookie'
+import type { IOnCompleted, IOnData, IOnError, IOnFile, IOnMessageEnd, IOnMessageReplace, IOnNodeFinished, IOnNodeStarted, IOnThought, IOnWorkflowFinished, IOnWorkflowStarted } from './base'
+import { API_KEY, API_URL, APP_ID } from '@/config'
 
 const userPrefix = `user_${APP_ID}:`
 
@@ -15,7 +16,7 @@ const getSessionId = () => {
         sessionId = v4()
         Cookies.set('session_id', sessionId)
     }
-    return sessionId
+    return sessionId || ''
 }
 
 // Get user ID from session
@@ -33,15 +34,63 @@ export const difyService = {
         return data
     },
 
-    // Create new message
-    createMessage: async (conversationId: string, message: string, query?: Record<string, any>) => {
+    // Create new message with streaming support
+    createMessage: async (
+        conversationId: string,
+        message: string,
+        {
+            onData,
+            onCompleted,
+            onThought,
+            onFile,
+            onError,
+            onMessageEnd,
+            onMessageReplace,
+            onWorkflowStarted,
+            onNodeStarted,
+            onNodeFinished,
+            onWorkflowFinished,
+        }: {
+            onData: IOnData
+            onCompleted: IOnCompleted
+            onFile: IOnFile
+            onThought: IOnThought
+            onMessageEnd: IOnMessageEnd
+            onMessageReplace: IOnMessageReplace
+            onError: IOnError
+            onWorkflowStarted: IOnWorkflowStarted
+            onNodeStarted: IOnNodeStarted
+            onNodeFinished: IOnNodeFinished
+            onWorkflowFinished: IOnWorkflowFinished
+        },
+        query?: Record<string, any>,
+    ) => {
         const userId = getUserId()
-        const response = await client.createMessage(userId, {
-            conversation_id: conversationId,
-            inputs: query || {},
-            query: message,
-        })
-        return response
+        try {
+            const response = await client.createMessage(userId, {
+                conversation_id: conversationId,
+                inputs: query || {},
+                query: message,
+                response_mode: 'streaming',
+            }, {
+                onData: (data: string, isFirstMessage: boolean, moreInfo: any) => onData(data, isFirstMessage, moreInfo),
+                onCompleted,
+                onThought,
+                onFile,
+                onError,
+                onMessageEnd,
+                onMessageReplace,
+                onWorkflowStarted,
+                onNodeStarted,
+                onNodeFinished,
+                onWorkflowFinished,
+            })
+            return response
+        }
+        catch (error: any) {
+            onError(error.message)
+            throw error
+        }
     },
 
     // Get conversation list
@@ -68,5 +117,5 @@ export const difyService = {
     getParameters: async () => {
         const { data } = await client.getApplicationParameters()
         return data
-    }
-} 
+    },
+}

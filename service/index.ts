@@ -1,5 +1,6 @@
 import type { IOnCompleted, IOnData, IOnError, IOnFile, IOnMessageEnd, IOnMessageReplace, IOnNodeFinished, IOnNodeStarted, IOnThought, IOnWorkflowFinished, IOnWorkflowStarted } from './base'
-import { get, post, ssePost } from './base'
+import { post } from './base'
+import { difyService } from './dify'
 import type { Feedbacktype } from '@/types/app'
 
 export const sendChatMessage = async (
@@ -32,28 +33,42 @@ export const sendChatMessage = async (
     onWorkflowFinished: IOnWorkflowFinished
   },
 ) => {
-  return ssePost('chat-messages', {
-    body: {
-      ...body,
-      response_mode: 'streaming',
+  const { conversation_id, query, inputs } = body
+  return difyService.createMessage(
+    conversation_id,
+    query,
+    {
+      onData,
+      onCompleted,
+      onThought,
+      onFile,
+      onError,
+      onMessageEnd,
+      onMessageReplace,
+      onWorkflowStarted,
+      onNodeStarted,
+      onNodeFinished,
+      onWorkflowFinished,
     },
-  }, { onData, onCompleted, onThought, onFile, onError, getAbortController, onMessageEnd, onMessageReplace, onNodeStarted, onWorkflowStarted, onWorkflowFinished, onNodeFinished })
+    inputs,
+  )
 }
 
 export const fetchConversations = async () => {
-  return get('conversations', { params: { limit: 100, first_id: '' } })
+  return difyService.getConversations()
 }
 
 export const fetchChatList = async (conversationId: string) => {
-  return get('messages', { params: { conversation_id: conversationId, limit: 20, last_id: '' } })
+  return difyService.getConversationMessages(conversationId)
 }
 
 // init value. wait for server update
 export const fetchAppParams = async () => {
-  return get('parameters')
+  return difyService.getParameters()
 }
 
 export const updateFeedback = async ({ url, body }: { url: string; body: Feedbacktype }) => {
+  // TODO: Implement feedback in difyService if needed
   return post(url, { body })
 }
 

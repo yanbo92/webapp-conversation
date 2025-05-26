@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',  // Enable static exports
+  output: 'export', // Enable static exports
   productionBrowserSourceMaps: false, // enable browser source map generation during the production build
   // Configure pageExtensions to include md and mdx
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
@@ -20,6 +20,15 @@ const nextConfig = {
   // Disable image optimization since we're using static export
   images: {
     unoptimized: true,
+  },
+  // Configure static generation behavior
+  staticPageGenerationTimeout: 120,
+  // Disable dynamic routes during static export
+  async exportPathMap() {
+    return {
+      '/': { page: '/' },
+      '/404': { page: '/404' },
+    }
   },
 }
 

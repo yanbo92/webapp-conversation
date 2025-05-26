@@ -10,13 +10,17 @@ const userPrefix = `user_${APP_ID}:`
 const client = new ChatClient(API_KEY, API_URL || undefined)
 
 // Get or create session ID
-const getSessionId = () => {
+const getSessionId = (): string => {
+    // Only access cookies on the client side
+    if (typeof window === 'undefined')
+        return v4() // Provide a temporary ID during static generation
+
     let sessionId = Cookies.get('session_id')
     if (!sessionId) {
         sessionId = v4()
         Cookies.set('session_id', sessionId)
     }
-    return sessionId || ''
+    return sessionId || v4() // Ensure we always return a string
 }
 
 // Get user ID from session

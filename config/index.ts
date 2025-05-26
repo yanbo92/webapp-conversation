@@ -8,7 +8,7 @@ export const APP_INFO: AppInfo = {
   description: process.env.NEXT_PUBLIC_APP_DESCRIPTION || '',
   copyright: process.env.NEXT_PUBLIC_APP_COPYRIGHT || '',
   privacy_policy: process.env.NEXT_PUBLIC_APP_PRIVACY_POLICY || '',
-  default_language: process.env.NEXT_PUBLIC_DEFAULT_LANGUAGE || 'zh',
+  default_language: process.env.NEXT_PUBLIC_DEFAULT_LANGUAGE || 'zh-Hans',
 }
 
 export const isShowPrompt = process.env.NEXT_PUBLIC_SHOW_PROMPT === 'false'

@@ -1,8 +1,7 @@
 import type { AppInfo } from '@/types/app'
-
-export const APP_ID = process.env.NEXT_PUBLIC_APP_ID || ''
-export const API_KEY = process.env.NEXT_PUBLIC_APP_KEY || ''
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || ''
+export const APP_ID = `${process.env.NEXT_PUBLIC_APP_ID}`
+export const API_KEY = `${process.env.NEXT_PUBLIC_APP_KEY}`
+export const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`
 
 export const APP_INFO: AppInfo = {
   title: process.env.NEXT_PUBLIC_APP_TITLE || 'Chat APP',
@@ -12,7 +11,7 @@ export const APP_INFO: AppInfo = {
   default_language: process.env.NEXT_PUBLIC_DEFAULT_LANGUAGE || 'en',
 }
 
-export const isShowPrompt = process.env.NEXT_PUBLIC_SHOW_PROMPT === 'true'
+export const isShowPrompt = process.env.NEXT_PUBLIC_SHOW_PROMPT === 'false'
 export const promptTemplate = process.env.NEXT_PUBLIC_PROMPT_TEMPLATE || 'I want you to act as a javascript console.'
 
 export const API_PREFIX = process.env.NEXT_PUBLIC_API_PREFIX || '/api'

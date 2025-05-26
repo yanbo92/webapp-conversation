@@ -22,7 +22,8 @@ const nextConfig = {
     unoptimized: true,
   },
   // Configure static generation behavior
-  staticPageGenerationTimeout: 120,
+  staticPageGenerationTimeout: 180, // Increase timeout for static generation
+  trailingSlash: true, // Add trailing slashes to all routes
 }
 
 module.exports = nextConfig

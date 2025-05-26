@@ -1,3 +1,4 @@
+'use client'
 import type { FC } from 'react'
 import React from 'react'
 
@@ -13,7 +14,3 @@ const App: FC<IMainProps> = ({
 }
 
 export default React.memo(App)
-
-export const generateStaticParams = async () => {
-  return []
-}

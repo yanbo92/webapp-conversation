@@ -7,7 +7,8 @@ import { API_KEY, API_URL, APP_ID } from '@/config'
 const userPrefix = `user_${APP_ID}:`
 
 // Initialize the Dify client
-const client = new ChatClient(API_KEY, API_URL || undefined)
+const apiUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL
+const client = new ChatClient(API_KEY, apiUrl)
 
 // Get or create session ID
 const getSessionId = (): string => {

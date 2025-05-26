@@ -19,9 +19,11 @@ COPY --from=builder /app/out /usr/share/nginx/html
 # Copy custom Nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Create a custom 404 page symlink
-RUN ln -s /usr/share/nginx/html/404.html /usr/share/nginx/html/404/index.html
+# Create a custom 404 page symlink (remove if exists first)
+RUN rm -f /usr/share/nginx/html/404/index.html &&
+    mkdir -p /usr/share/nginx/html/404 &&
+    ln -s /usr/share/nginx/html/404.html /usr/share/nginx/html/404/index.html
 
-EXPOSE 80
+EXPOSE 3000
 
 CMD ["nginx", "-g", "daemon off;"]

@@ -13,3 +13,7 @@ const App: FC<IMainProps> = ({
 }
 
 export default React.memo(App)
+
+export const generateStaticParams = async () => {
+  return []
+}

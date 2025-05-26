@@ -23,13 +23,6 @@ const nextConfig = {
   },
   // Configure static generation behavior
   staticPageGenerationTimeout: 120,
-  // Disable dynamic routes during static export
-  async exportPathMap() {
-    return {
-      '/': { page: '/' },
-      '/404': { page: '/404' },
-    }
-  },
 }
 
 module.exports = nextConfig

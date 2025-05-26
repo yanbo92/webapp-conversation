@@ -1,5 +1,5 @@
 # Build stage
-FROM --platform=linux/amd64 node:20-bullseye-slim AS builder
+FROM node:20-bullseye-slim AS builder
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ RUN yarn install
 RUN yarn build
 
 # Production stage with Nginx
-FROM --platform=linux/amd64 nginx:alpine
+FROM nginx:alpine
 
 # Copy the built static files to Nginx serve directory
 COPY --from=builder /app/out /usr/share/nginx/html

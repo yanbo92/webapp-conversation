@@ -1,16 +1,22 @@
-import { getLocaleOnServer } from '@/i18n/server'
+'use client'
 
+import { useEffect } from 'react'
+import { getLocaleOnClient } from '@/i18n/client'
 import './styles/globals.css'
 import './styles/markdown.scss'
 
-const LocaleLayout = ({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-}) => {
-  const locale = getLocaleOnServer()
+}) {
+  useEffect(() => {
+    // Initialize locale on client side
+    getLocaleOnClient()
+  }, [])
+
   return (
-    <html lang={locale ?? 'en'} className="h-full">
+    <html lang="en" className="h-full">
       <body className="h-full">
         <div className="overflow-x-auto">
           <div className="w-screen h-screen min-w-[300px]">
@@ -21,5 +27,3 @@ const LocaleLayout = ({
     </html>
   )
 }
-
-export default LocaleLayout

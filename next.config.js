@@ -5,7 +5,9 @@ const nextConfig = {
   // Configure pageExtensions to include md and mdx
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   experimental: {
-    // appDir: true,
+    // Disable server components for static export
+    appDir: true,
+    serverActions: false,
   },
   // fix all before production. Now it slow the develop speed.
   eslint: {
@@ -24,6 +26,12 @@ const nextConfig = {
   // Configure static generation behavior
   staticPageGenerationTimeout: 180, // Increase timeout for static generation
   trailingSlash: true, // Add trailing slashes to all routes
+  // Disable server components features
+  serverComponents: false,
+  // Force all pages to be static
+  compiler: {
+    emotion: false,
+  },
 }
 
 module.exports = nextConfig

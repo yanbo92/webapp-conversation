@@ -12,15 +12,23 @@ const client = new ChatClient(API_KEY, API_URL || undefined)
 // Get or create session ID
 const getSessionId = (): string => {
     // Only access cookies on the client side
-    if (typeof window === 'undefined')
-        return v4() // Provide a temporary ID during static generation
-
-    let sessionId = Cookies.get('session_id')
-    if (!sessionId) {
-        sessionId = v4()
-        Cookies.set('session_id', sessionId)
+    if (typeof window === 'undefined') {
+        // During static generation or server-side rendering
+        return `static-${v4()}`
     }
-    return sessionId || v4() // Ensure we always return a string
+
+    try {
+        const storedSessionId = Cookies.get('session_id')
+        const sessionId = storedSessionId || v4()
+        if (!storedSessionId)
+            Cookies.set('session_id', sessionId)
+
+        return sessionId
+    }
+    catch (error) {
+        // Fallback if cookie access fails
+        return `fallback-${v4()}`
+    }
 }
 
 // Get user ID from session

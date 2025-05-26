@@ -4,11 +4,11 @@ export const API_KEY = `${process.env.NEXT_PUBLIC_APP_KEY}`
 export const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`
 
 export const APP_INFO: AppInfo = {
-  title: process.env.NEXT_PUBLIC_APP_TITLE || 'Chat APP',
+  title: process.env.NEXT_PUBLIC_APP_TITLE || 'X-SEARCH',
   description: process.env.NEXT_PUBLIC_APP_DESCRIPTION || '',
   copyright: process.env.NEXT_PUBLIC_APP_COPYRIGHT || '',
   privacy_policy: process.env.NEXT_PUBLIC_APP_PRIVACY_POLICY || '',
-  default_language: process.env.NEXT_PUBLIC_DEFAULT_LANGUAGE || 'en',
+  default_language: process.env.NEXT_PUBLIC_DEFAULT_LANGUAGE || 'zh',
 }
 
 export const isShowPrompt = process.env.NEXT_PUBLIC_SHOW_PROMPT === 'false'
